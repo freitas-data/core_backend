@@ -1,19 +1,18 @@
 import os
 from pathlib import Path
 from decouple import config
-from datetime import timedelta
+from datetime import timedelta  # coloque no topo do arquivo
 
-# Caminho base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# Segurança
 SECRET_KEY = config('SECRET_KEY', default='troque-essa-chave-no-prod')
+
 DEBUG = False
 ALLOWED_HOSTS = []
 
-# Apps instalados
+# Aplicativos instalados
 INSTALLED_APPS = [
-    # Django
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -26,13 +25,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
 
-    # Seus apps
+    # Apps do projeto
     'apps.users',
 ]
 
-# Middlewares
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # CORS deve vir antes
+    'corsheaders.middleware.CorsMiddleware',  # importante vir antes do CommonMiddleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,11 +40,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Configs principais
 ROOT_URLCONF = 'config.urls'
-WSGI_APPLICATION = 'config.wsgi.application'
 
-# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -63,7 +58,9 @@ TEMPLATES = [
     },
 ]
 
-# Banco de dados
+WSGI_APPLICATION = 'config.wsgi.application'
+
+# Banco de dados (PostgreSQL via Railway)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -75,16 +72,10 @@ DATABASES = {
     }
 }
 
+# Autenticação personalizada
+AUTH_USER_MODEL = 'users.User'
 
-
-# JWT (SimpleJWT)
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-}
-
-# Validação de senha
+# Senha
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -94,23 +85,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Localização
+# Internacionalização
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# Estático
+# Arquivos estáticos
 STATIC_URL = 'static/'
 
-# CORS
-CORS_ALLOW_ALL_ORIGINS = True  # Em produção, substitua por domínios específicos
-
-# Auto field padrão
+# Auto primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Autenticação
-AUTH_USER_MODEL = 'users.User'
+# REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True  # pode ser restrito na produção
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),

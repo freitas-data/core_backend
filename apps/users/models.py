@@ -15,6 +15,12 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+
+        if not extra_fields.get('is_staff'):
+            raise ValueError('Superusuário precisa ter is_staff=True')
+        if not extra_fields.get('is_superuser'):
+            raise ValueError('Superusuário precisa ter is_superuser=True')
+
         return self.create_user(email, password, **extra_fields)
 
 
@@ -27,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = []  # Campos obrigatórios além do email (para createsuperuser)
 
     objects = CustomUserManager()
 
