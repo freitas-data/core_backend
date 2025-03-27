@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-from decouple import config  # adicionado para usar .env
+# from decouple import config  # adicionado para usar .env
 
 def main():
     """Ponto de entrada para comandos de gerenciamento Django."""
