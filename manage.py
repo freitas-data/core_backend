@@ -14,7 +14,7 @@ def main():
         # Carrega o módulo de settings
         settings_module = config(
             'DJANGO_SETTINGS_MODULE',
-            default='core_backend.settings'  # Ajuste para seu caminho real
+            default='config.settings'  # Ajuste para seu caminho real
         )
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
