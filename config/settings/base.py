@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from decouple import config
 from datetime import timedelta  # coloque no topo do arquivo
-from dotenv import load_dotenv
+from dotenv import load_dotenv # type: ignore
 
 load_dotenv()
 
